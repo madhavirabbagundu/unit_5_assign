@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation</title>
+<style>
+    #table{
+        text-align:center;
+        border:5px solid black;
+        width:500px;
+        margin-left:600px;
+        
+    }
+     tbody{
+        text-align:center;
+        border:1 px solid black;
+        /* width:100px; */
+        height:100px;
+    }
+    td{
+        text-align:center;
+        border:1 px solid black;
+        width:500px;
+         width:100px; 
+        height:50px;
+    } 
+    tr{
+        text-align:center;
+        border:1 px solid black;
+        /* width:500px; */
+        width:100px;
+        height:50px;
+        background-color:aqua;
+    }
+</style>
+
+</head>
+<body>
+    <div id = "container"></div>
+    <table id = "table">
+    <tbody id = "body"></tbody>    
+    </table>
+    <a href = "search.html" style = "margin:70px;font-size:50px;">search_page</a>
+
+    
+</body>
+</html>
+<script>
+   let url = "https://pokeapi.co/api/v2/pokemon";
+  
+   
+
+   async function getData(){
+       try{
+           let res = await fetch(url);
+           let data = await res.json();
+           displayData(data.results);
+           console.log(data.results)
+       var local = localStorage.setItem("total_data",JSON.stringify(data.results))
+       console.log(local)
+       }catch(err) {
+           console.log(err);
+       }
+   }
+   getData();
+var table = document.querySelector("#table")
+var tbody = document.querySelector("#body")
+
+function displayData(data1){
+    // console.log(data)
+    data1.forEach(function(data) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        td.innerHTML = data.name;
+        tr.append(td)
+      tbody.append(tr)
+      table.append(tbody)
+       console.log(table)
+    })
+}
+
+
+</script>
