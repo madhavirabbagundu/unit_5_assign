@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    #container{
+        display:grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-gap:30px;
+        text-align: center;
+        padding: 20px;
+    }
+    #container > div{
+        border:1px solid black;
+    }
+    img{
+        width:200px;
+        height:190px;
+        margin-left: 50px;
+        
+
+    }
+</style>
+<body>
+    <!-- <div id= "container"></div> -->
+
+
+    <input type = "text" id="product">
+    <button onClick="fectdata()">get the product</button>
+    <div id="search"></div>
+
+
+</body>
+</html>
+<script>
+    let search = document.getElementById("search")
+    let API_KEY = "ee85dd02";
+
+    async function fectdata(){
+        try{
+           let url = `http://www.omdbapi.com/?apikey=${API_KEY}&s={movie}`
+           let product = document.getElementById("product").value;
+        //    console.log(product)
+           let out = await fetch(url);
+        //    console.log(out)
+           let prod = await out.json()
+           console.log(prod.Search)
+           displaydata(prod.Search)
+
+        }
+        catch(err){
+        console.log(err)
+        }
+    }
+    function displaydata(movie1){
+        // console.log(movie)
+    //    search.innerHTML="";
+        
+       movie1.forEach((data) => {
+           let main = document.createElement("div")
+
+
+          let image = document.createElement("img")
+          image.src = data.Poster
+        
+          let year = document.createElement("p")
+          year.innerText = "year:  "+data.Year
+
+          let Title  = document.createElement("p")
+          Title.innerText = "Title:  "+data.Title
+
+          let type = document.createElement("p")
+          type.innerText = "type:  "+data.Type;
+
+
+          let price = document.createElement("p")
+          price.innerText = "imdbID:  "+data.imdbID
+
+          main.append(image,Title,year,type,price)
+         
+            search.append(main)
+          
+          
+
+       });
+      
+   }
+
+
+
+</script>
