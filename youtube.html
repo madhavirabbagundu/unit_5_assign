@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>youtube</title>
+</head>
+<body>
+    <input type = "text" placeholder = "search video" id = "searchparam"/>
+    <button onclick = "searchvideo()">search</button>
+
+    <h1 style = "text-align: center;margin-top: 50px;;">videos</h1>
+    <div id = "searchResults"></div>
+</body>
+</html>
+<style>
+    #searchResults{
+        display:grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-gap:10px;
+        margin-top:200px;
+        
+    }
+    
+</style>
+<script>
+
+    //GET https://youtube.googleapis.com/youtube/v3/search?q=pirates&key=[YOUR_API_KEY] 
+
+
+
+    let API_KEY = "AIzaSyCoc05soHKf2_TNp7C6CfhULc4JszkEFHI";
+    async function searchvideo(){
+        try{
+            let searchparam = document.getElementById("searchparam").value;
+            console.log(searchparam)
+            let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${searchparam}&key=${API_KEY}&type=video`);
+            let data = await res.json();
+            console.log(data.items) 
+            displaydata(data.items)
+        }
+        catch(error){
+       console.log(error)
+        }
+    }
+
+    function displaydata(data1){
+        
+        data1.forEach((video)=>{
+            let videocard = document.createElement("div")
+
+            let videoframe = document.createElement("iframe");
+            videoframe.src=`https://www.youtube.com/embed/${video.id.videoId}`;
+            videoframe.width="100%";
+          videoframe.height="400px";
+          videocard.append(videoframe);
+          searchResults.append(videocard)
+
+        })
+    }
+</script>
